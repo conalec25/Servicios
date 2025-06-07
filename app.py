@@ -3,14 +3,14 @@ import pandas as pd
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración SharePoint
+# Configuración SharePoint actualizada
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
 client_id = "c7b3c371-5474-4109-b266-be0e263848fd"
 client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
-list_name = "Usuarios"  # nombre real confirmado por URL
+list_name = "RegUsuarios"
 columna_correo = "UsuarioCorreo"
 
-# Función para obtener usuarios con manejo de errores detallado
+# Función con manejo de errores
 @st.cache_data(ttl=600)
 def obtener_usuarios_sharepoint():
     try:
