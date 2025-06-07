@@ -1,21 +1,20 @@
 import streamlit as st
 import pandas as pd
-from office365.runtime.auth.client_credential import ClientCredential
 from office365.sharepoint.client_context import ClientContext
+from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración de la app registrada en Azure
+# Configuración de SharePoint
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
 client_id = "cea2887b-233f-4485-806e-a1ad688680b2"
 client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
-tenant_id = "2309395f-0c25-4a3e-b51c-6d8572989c5a"
 list_name = "RegUsuarios"
 columna_correo = "UsuarioCorreo"
 
-# Función para conectar a SharePoint y traer usuarios
+# Función para obtener usuarios desde SharePoint
 @st.cache_data(ttl=600)
 def obtener_usuarios_sharepoint():
-    cred = ClientCredential(client_id, client_secret)
-    ctx = ClientContext(site_url).with_credentials(cred)
+    credentials = ClientCredential(client_id, client_secret)
+    ctx = ClientContext(site_url).with_credentials(credentials)
     lista = ctx.web.lists.get_by_title(list_name)
     items = lista.items.top(200).get().execute_query()
     registros = [item.properties for item in items]
@@ -23,6 +22,7 @@ def obtener_usuarios_sharepoint():
     df[columna_correo] = df[columna_correo].str.strip().str.lower()
     return df
 
+# Interfaz Streamlit
 st.set_page_config(page_title="Acceso Servicios CONALEC", page_icon="🔐")
 st.title("🔐 Acceso a la plataforma de servicios")
 
