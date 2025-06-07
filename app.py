@@ -3,14 +3,13 @@ import pandas as pd
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración SharePoint actualizada
+# Configuración de acceso
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
 client_id = "c7b3c371-5474-4109-b266-be0e263848fd"
 client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
-list_name = "RegUsuarios"
+list_name = "Usuarios"  # nombre interno real extraído desde la URL
 columna_correo = "UsuarioCorreo"
 
-# Función con manejo de errores
 @st.cache_data(ttl=600)
 def obtener_usuarios_sharepoint():
     try:
@@ -25,7 +24,7 @@ def obtener_usuarios_sharepoint():
     except Exception as e:
         raise RuntimeError(f"Error accediendo a SharePoint: {e}")
 
-# Interfaz Streamlit
+# Interfaz
 st.set_page_config(page_title="Acceso Servicios CONALEC", page_icon="🔐")
 st.title("🔐 Acceso a la plataforma de servicios")
 
