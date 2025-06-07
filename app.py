@@ -3,10 +3,10 @@ import pandas as pd
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración de SharePoint
+# Configuración correcta de SharePoint y Azure App
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
-client_id = "cea2887b-233f-4485-806e-a1ad688680b2"
-client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
+client_id = "c7b3c371-5474-4109-b266-be0e263848fd"
+client_secret = "cea2887b-233f-4485-806e-a1ad688680b2"
 list_name = "RegUsuarios"
 columna_correo = "UsuarioCorreo"
 
