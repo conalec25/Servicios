@@ -3,24 +3,27 @@ import pandas as pd
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración actualizada con valores correctos
+# Configuración SharePoint
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
 client_id = "c7b3c371-5474-4109-b266-be0e263848fd"
 client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
-list_name = "RegUsuarios"
+list_name = "Usuarios"  # nombre real confirmado por URL
 columna_correo = "UsuarioCorreo"
 
-# Función para obtener usuarios desde SharePoint
+# Función para obtener usuarios con manejo de errores detallado
 @st.cache_data(ttl=600)
 def obtener_usuarios_sharepoint():
-    credentials = ClientCredential(client_id, client_secret)
-    ctx = ClientContext(site_url).with_credentials(credentials)
-    lista = ctx.web.lists.get_by_title(list_name)
-    items = lista.items.top(200).get().execute_query()
-    registros = [item.properties for item in items]
-    df = pd.DataFrame(registros)
-    df[columna_correo] = df[columna_correo].str.strip().str.lower()
-    return df
+    try:
+        credentials = ClientCredential(client_id, client_secret)
+        ctx = ClientContext(site_url).with_credentials(credentials)
+        lista = ctx.web.lists.get_by_title(list_name)
+        items = lista.items.top(200).get().execute_query()
+        registros = [item.properties for item in items]
+        df = pd.DataFrame(registros)
+        df[columna_correo] = df[columna_correo].str.strip().str.lower()
+        return df
+    except Exception as e:
+        raise RuntimeError(f"Error accediendo a SharePoint: {e}")
 
 # Interfaz Streamlit
 st.set_page_config(page_title="Acceso Servicios CONALEC", page_icon="🔐")
