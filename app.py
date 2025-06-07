@@ -3,13 +3,14 @@ import pandas as pd
 from office365.sharepoint.client_context import ClientContext
 from office365.runtime.auth.client_credential import ClientCredential
 
-# Configuración de acceso
+# Configuración de SharePoint
 site_url = "https://netorgft16679613.sharepoint.com/sites/Facturacion"
 client_id = "c7b3c371-5474-4109-b266-be0e263848fd"
 client_secret = "HSt8Q~R-dGcayNSsNdqOkN4azw6i1sqBRGu.ZcH-"
-list_name = "Usuarios"  # nombre interno real extraído desde la URL
+list_name = "Usuarios"
 columna_correo = "UsuarioCorreo"
 
+# Función para obtener usuarios
 @st.cache_data(ttl=600)
 def obtener_usuarios_sharepoint():
     try:
@@ -24,10 +25,16 @@ def obtener_usuarios_sharepoint():
     except Exception as e:
         raise RuntimeError(f"Error accediendo a SharePoint: {e}")
 
-# Interfaz
-st.set_page_config(page_title="Acceso Servicios CONALEC", page_icon="🔐")
-st.title("🔐 Acceso a la plataforma de servicios")
+# Interfaz Streamlit con logo
+st.set_page_config(page_title="Servicios CONALEC", page_icon="🍽️")
 
+# Mostrar logo institucional
+from PIL import Image
+logo = Image.open("LOGO SAS.jpg")
+st.image(logo, width=200)
+st.markdown("<h2 style='text-align: center;'>🔐 Acceso a la plataforma de servicios</h2>", unsafe_allow_html=True)
+
+# Campo de login
 correo_input = st.text_input("Ingresa tu correo institucional", placeholder="usuario@conalec.com")
 
 if st.button("Ingresar"):
